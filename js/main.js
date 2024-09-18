@@ -37,56 +37,68 @@ function fetchExperiences() {
         .catch(error => console.error('Error fetching experiences:', error));
 }
 
+// Funktion för att radera en arbetserfarenhet
 function deleteExperience(id) {
+
+    // Bekräfta innan radering
     if (confirm('Är du säker på att du vill radera denna arbetserfarenhet?')) {
-        fetch(`http://localhost:4653/api/workexperience/${id}`, {
+        fetch(`http://localhost:4680/api/workexperience/${id}`, {
             method: 'DELETE',
         })
-            .then(response => {
-                if (response.ok) {
-                    alert('Arbetserfarenheten har raderats.');
-                    fetchExperiences(); // Uppdatera listan efter borttagning
-                } else {
-                    alert('Något gick fel, kunde inte radera arbetserfarenheten.');
-                }
-            })
-            .catch(error => console.error('Error deleting experience:', error));
+        .then(response => {
+            if (response.ok) {
+                alert('Arbetserfarenheten har raderats.');
+
+                // Uppdatera listan efter borttagning
+                fetchExperiences(); 
+            } else {
+                alert('Något gick fel, kunde inte radera arbetserfarenheten.');
+            }
+        })
+        .catch(error => console.error('Error deleting experience:', error));
     }
 }
 
+// Funktion för att redigera en arbetserfarenhet
 function editExperience(id, button) {
     const li = button.parentNode;
-    const fields = li.firstChild.textContent.split(' - ');
-
-    const companyname = prompt('Ange företagsnamn:', fields[0]);
-    const jobtitle = prompt('Ange jobbtitel:', fields[1].split(' (')[0]);
-    const dates = fields[1].match(/\(([^)]+)\)/)[1].split(' - ');
-    const startdate = prompt('Ange startdatum (YYYY-MM-DD):', dates[0]);
-    const enddate = prompt('Ange slutdatum (YYYY-MM-DD) eller lämna tomt för pågående:', dates[1] === 'Present' ? '' : dates[1]);
-
-    if (companyname && jobtitle && startdate) {
+    const textContent = li.firstChild.textContent;
+    
+   // Dela upp texten för att extrahera nuvarande värden
+    const [companynameJobtitle, dates] = textContent.split(' (');
+    const [companyname, jobtitle] = companynameJobtitle.split(' - ');
+    const [startDateStr, endDateStr] = dates.slice(0, -1).split(' - ');
+    
+    // Fråga användaren om nya värden med de gamla som förval
+    const newCompanyName = prompt('Ange företagsnamn:', companyname.trim());
+    const newJobTitle = prompt('Ange jobbtitel:', jobtitle.trim());
+    const newStartDate = prompt('Ange startdatum (YYYY-MM-DD):', startDateStr.trim());
+    const newEndDate = prompt('Ange slutdatum (YYYY-MM-DD) eller lämna tomt för pågående:', endDateStr.trim() !== 'Present' ? endDateStr.trim() : '');
+    
+     // Om användaren har fyllt i allt, skicka uppdateringen till servern
+    if (newCompanyName && newJobTitle && newStartDate) {
         const updatedExperience = {
-            companyname,
-            jobtitle,
-            startdate: new Date(startdate).toISOString(),
-            enddate: enddate ? new Date(enddate).toISOString() : null
+            companyname: newCompanyName,
+            jobtitle: newJobTitle,
+            startdate: new Date(newStartDate).toISOString(),
+            enddate: newEndDate ? new Date(newEndDate).toISOString() : null,
         };
 
-        fetch(`http://localhost:4653/api/workexperience/${id}`, {
+        fetch(`http://localhost:4680/api/workexperience/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(updatedExperience)
         })
-            .then(response => {
-                if (response.ok) {
-                    alert('Arbetserfarenheten har uppdaterats.');
-                    fetchExperiences(); // Uppdatera listan efter uppdatering
-                } else {
-                    alert('Något gick fel, kunde inte uppdatera arbetserfarenheten.');
-                }
-            })
-            .catch(error => console.error('Error updating experience:', error));
+        .then(response => {
+            if (response.ok) {
+                alert('Arbetserfarenheten har uppdaterats.');
+                fetchExperiences(); // Uppdatera listan efter uppdatering
+            } else {
+                alert('Något gick fel, kunde inte uppdatera arbetserfarenheten.');
+            }
+        })
+        .catch(error => console.error('Error updating experience:', error));
     }
 }
