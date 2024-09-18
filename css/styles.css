@@ -5,9 +5,9 @@ body {
     font-weight: 300;
     color: #ffffff;
     margin: 0;
-    padding: 0;         
+    padding: 0;
     background: linear-gradient(0deg, rgb(185, 180, 180) 0%, rgba(74, 82, 90, 1) 100%);
- 
+
 }
 
 /* Stil för fel/meddelanden  */
@@ -26,7 +26,8 @@ body {
 
 main {
     display: flex;
-    justify-content: center;}
+    justify-content: center;
+}
 
 .container {
     background-color: #aeaaaa8c;
@@ -35,12 +36,18 @@ main {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 15px;
     margin: 10px;
     width: 80%;
-    
-    
+
+
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Lato', sans-serif;}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Lato', sans-serif;
+}
 
 header {
     background-color: #333;
@@ -66,6 +73,9 @@ form {
     margin: auto;
 }
 
-form label, form input, form textarea, form button {
+form label,
+form input,
+form textarea,
+form button {
     margin-bottom: 10px;
 }

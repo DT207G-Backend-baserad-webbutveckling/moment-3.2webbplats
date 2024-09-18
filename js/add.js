@@ -1,7 +1,7 @@
 // Kör koden när sidan har laddats
 document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('add-experience-form')) {
-         // Lägg till en event listener för formulärets submit-händelse
+        // Lägg till en event listener för formulärets submit-händelse
         document.getElementById('add-experience-form').addEventListener('submit', addExperience);
     }
 });
@@ -24,8 +24,8 @@ function addExperience(event) {
     };
 
     console.log('Sending data:', experience);
-   
-// POST-förfrågan till servern
+
+    // POST-förfrågan till servern
     fetch('http://localhost:4680/api/workexperience', {
         method: 'POST',
         headers: {
@@ -36,11 +36,11 @@ function addExperience(event) {
         // Konvertera till en JSON-sträng
         body: JSON.stringify(experience)
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-        form.reset();
-        window.location.href = 'index.html';
-    })
-    .catch(error => console.error('Error adding experience:', error));
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            form.reset();
+            window.location.href = 'index.html';
+        })
+        .catch(error => console.error('Error adding experience:', error));
 }
