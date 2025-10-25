@@ -1,0 +1,86 @@
+# 🌐 Webbplats – Work Experience Client
+
+Denna webbplats fungerar som klient för REST-API:t som hanterar arbetslivserfarenheter.
+Den låter användaren **visa** och **lägga till** erfarenheter via ett enkelt gränssnitt byggt i HTML, CSS och JavaScript.
+
+---
+
+## ✨ Funktionalitet
+
+| Sida         | Funktion                                                      |
+| ------------ | ------------------------------------------------------------- |
+| `index.html` | Hämtar och visar alla erfarenheter från API:et                |
+| `add.html`   | Formulär för att skicka en ny erfarenhet till API:et via POST |
+| `about.html` | Kort beskrivning av projektet                                 |
+| `main.js`    | Hämtar data och uppdaterar DOM på index.html                  |
+| `add.js`     | Skickar POST-request när man lägger till en erfarenhet        |
+
+---
+
+## 🧩 Teknisk översikt
+
+| Teknik                 | Användning                                         |
+| ---------------------- | -------------------------------------------------- |
+| HTML                   | Struktur för sidorna                               |
+| CSS                    | Grundläggande styling                              |
+| JavaScript (fetch API) | Kommunikation med backend                          |
+| REST API               | Hämta och skicka data till Express/MongoDB-servern |
+
+Webbplatsen är statisk och behöver ingen egen server – den konsumerar bara API:t.
+Dock måste **backend** vara igång för att funktionerna ska fungera (annars hämtas ingen data).
+
+---
+
+## 📂 Mappstruktur
+
+```
+/ (frontendrot)
+├── index.html       # Startsida med lista
+├── add.html         # Formulärsida
+├── about.html       # Infosida
+├── css/
+│   └── styles.css   # Styling
+└── js/
+    ├── main.js      # Hämtar och visar data
+    └── add.js       # Skickar POST-request
+```
+
+---
+
+## 🔌 API-anslutning
+
+Webbplatsen förväntar sig att REST-API:t (backend) kör på:
+
+```
+http://localhost:4680/api/workexperience
+```
+
+`main.js`:
+
+* Hämtar alla erfarenheter med `GET`
+
+`add.js`:
+
+* Skickar in nya erfarenheter med `POST`
+
+Exempel (POST från `add.js`):
+
+```js
+fetch('http://localhost:4680/api/workexperience', {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(data)
+});
+```
+
+---
+
+## ▶️ Så kör du webbplatsen
+
+1. Starta backend-API:t (Express + MongoDB)
+2. Öppna `index.html` i webbläsaren
+3. Navigera till `add.html` för att lägga till en ny erfarenhet
+4. Gå tillbaka till `index.html` så ser du den direkt
+
+---
+
